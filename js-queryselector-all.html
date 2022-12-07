@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style>
+		p{
+			border: 1px red solid;
+			width: 400px;; padding: 10px;
+		}
+	</style>
+	<script>
+		function doo()
+		{
+			
+		document.querySelector("#btn").addEventListener('click', function()
+										{
+    									
+				var ary=document.querySelectorAll("p");//it returns array
+			for(i=0;i<ary.length;i++)
+				{
+					alert(ary[i].innerHTML);
+					ary[i].style.backgroundColor="green";
+				}
+										});
+		}
+	
+	</script>
+</head>
+<body onload="doo();">
+	
+	<p>Banglore computer edu</p>
+	<p>REal java</p>
+	<p>Sun-Soft Technologies</p>
+	<br>
+		<button id="btn">Click Here</button>
+	
+</body>
+</html>

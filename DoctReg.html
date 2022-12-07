@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="Doc.css">
+    <title>Registration</title>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <script>
+        function showpreview(file, imgid) {
+
+            if (file.files && file.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function(e) {
+                    $(imgid).prop('src', e.target.result);
+                }
+                reader.readAsDataURL(file.files[0]);
+            }
+        }
+        function validate()
+        {
+            return true;
+        }
+        $("[type=file]").on("change", function() {
+            // Name of file and placeholder
+            var file = this.files[0].name;
+            var dflt = $(this).attr("placeholder");
+            if ($(this).val() != "") {
+                $(this).next().text(file);
+            } else {
+                $(this).next().text(dflt);
+            }
+        });
+     
+        
+             
+
+    </script>
+    <script>
+        $(document).ready(function(){
+             $("#mob").blur(function() {
+                 alert("dcc");
+                var u = $(this).val();
+                var exp = /^[6-9]{1}[0-9]{9}$/;
+                if (exp.test(u)) {
+                    $(this).css("border-bottom-color", "green");
+                    $("#err2").html("");
+                } else {
+                    $(this).val("");
+                    $(this).css("border-bottom-color", "#b31217");
+                    $("#err2").css("color", "#b31217");
+                    $("#err2").html("Incorrect Mobile Number");
+                }
+            });
+            
+             $("#mail").blur(function() {
+                var user = $(this).val();
+                var r = /^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/;
+                if (r.test(user)) {
+                    $(this).css("border-bottom-color", "green");
+                    $("#err3").html("");
+                } else {
+                    $(this).val("");
+                    $(this).css("border-bottom-color", "#b31217");
+                    $("#err3").css("color", "#b31217");
+                    $("#err3").html("Incorrect Mail address");
+                }
+            });
+            $("#name").blur(function() {
+                var nam = $(this).val();
+                if (nam.trim().length == "") {
+                    $(this).css("border-bottom-color", "#b31217");
+                } else {
+                    $(this).css("border-bottom-color", "green");
+                }
+            });
+            
+                $("#btnf").click(function(){
+    
+                var u=$("#uid").val();
+                
+                $.getJSON("json-getch.php?uid="+u,function(response){
+                    if(response.length==0)
+                        alert("Invalid Id");
+                    else{
+                        $("#mob").val(response[0].mobile);
+                        $("#mail").val(response[0].email);
+                        $("#city").val(response[0].city);
+                        $("#qual").val(response[0].qual);
+                        $("#exp").val(response[0].exp);
+                        $("#spl").val(response[0].spl);
+                        $("#name").val(response[0].name);
+                        $("#add").val(response[0].address);
+                        $("#inputstate").val(response[0].state);
+                        $("#imgid").prop("src","uploads/"+response[0].ppic);
+                        $("#imgidc").prop("src","uploads/"+response[0].certp);
+                        $("#imgids").prop("src","uploads/"+response[0].splp);
+                        $("#hdn1").val(response[0].ppic);
+                        $("#hdn2").val(response[0].certp);
+                        $("#hdn3").val(response[0].splp);
+                    }
+                });
+            });
+            
+            
+    $('#sub').on('click',function(e){
+      
+        var empty = true;
+        $('input:text').each(function(){
+            if($(this).val()==''){
+                  e.preventDefault();
+                 $(this).css("border-color", "#b31217");
+                empty = false;
+            } 
+        });
+        if(empty)
+            $('form').submit();
+        else
+            alert('PLease Complete your registration');
+    }); 
+
+   
+    });
+            
+            
+        });
+
+    </script>
+
+</head>
+
+<body>
+
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-md-9 offset-2 ">
+
+                <form action="docreg.php" method="post" enctype="multipart/form-data">
+                    <input type="hidden" id="hdn1" name="hdn1">
+                    <input type="hidden" id="hdn2" name="hdn2">
+                    <input type="hidden" id="hdn3" name="hdn3">
+                       <div class="form-row">
+                        <div class="form-group col-md-4">
+                            <label>User Id</label>
+                            <input type="text" class="form-control" name="uid" id="uid" placeholder="User Id">
+                        </div>
+                        <div class="form-group col-md-2">
+                            <input type="button" class="btn btn-secondary" id="btnf" onclick="showdata();" value="Fetch" style="margin-top: 32px;">
+                        </div>
+                        <div class="" style="margin-top: 33px; margin-left: 380px; position: absolute;">
+                            <input id="f02" type="file" placeholder="Add profile picture" name="ppic" style="display:none;" onchange="showpreview(this,imgid);" />
+                            <label for="f02" id="lb" style="margin-right: 15px; cursor: pointer;" class="btn btn-outline-success">Add profile picture</label>
+
+                        </div>
+                        <div style="position: absolute; margin-left: 630px;">
+                            <img src="" id="imgid" alt="" width="150px" height="100px" style="border-radius:80%;">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-4">
+                            <label for="name">Name</label>
+                            <input type="text" name="name" class="form-control" id="name">
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label for="pwd">Mobile</label>
+                            <input type="text" class="form-control" id="mob" name="mob">
+                            <span id="err2"></span>
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label for="mail">Email Id</label>
+                            <input type="text" class="form-control" id="mail" name="mail">
+                            <span id="err3"></span>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label for="address">Address</label>
+                            <input type="text" name="add" class="form-control" id="add">
+                        </div>
+                                                <div class="form-group col-md-3">
+                            <label for="inputState">State</label>
+                            <select id="inputState" class="custom-select" name="state">
+                                <option selected>Choose...</option>
+                                <option value="Andhra Pradesh">Andhra Pradesh</option>
+                                <option value="Andaman and Nicobar Islands">Andaman and Nicobar Islands</option>
+                                <option value="Arunachal Pradesh">Arunachal Pradesh</option>
+                                <option value="Assam">Assam</option>
+                                <option value="Bihar">Bihar</option>
+                                <option value="Chandigarh">Chandigarh</option>
+                                <option value="Chhattisgarh">Chhattisgarh</option>
+                                <option value="Dadar and Nagar Haveli">Dadar and Nagar Haveli</option>
+                                <option value="Daman and Diu">Daman and Diu</option>
+                                <option value="Delhi">Delhi</option>
+                                <option value="Lakshadweep">Lakshadweep</option>
+                                <option value="Puducherry">Puducherry</option>
+                                <option value="Goa">Goa</option>
+                                <option value="Gujarat">Gujarat</option>
+                                <option value="Haryana">Haryana</option>
+                                <option value="Himachal Pradesh">Himachal Pradesh</option>
+                                <option value="Jammu and Kashmir">Jammu and Kashmir</option>
+                                <option value="Jharkhand">Jharkhand</option>
+                                <option value="Karnataka">Karnataka</option>
+                                <option value="Kerala">Kerala</option>
+                                <option value="Madhya Pradesh">Madhya Pradesh</option>
+                                <option value="Maharashtra">Maharashtra</option>
+                                <option value="Manipur">Manipur</option>
+                                <option value="Meghalaya">Meghalaya</option>
+                                <option value="Mizoram">Mizoram</option>
+                                <option value="Nagaland">Nagaland</option>
+                                <option value="Odisha">Odisha</option>
+                                <option value="Punjab">Punjab</option>
+                                <option value="Rajasthan">Rajasthan</option>
+                                <option value="Sikkim">Sikkim</option>
+                                <option value="Tamil Nadu">Tamil Nadu</option>
+                                <option value="Telangana">Telangana</option>
+                                <option value="Tripura">Tripura</option>
+                                <option value="Uttar Pradesh">Uttar Pradesh</option>
+                                <option value="Uttarakhand">Uttarakhand</option>
+                                <option value="West Bengal">West Bengal</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-md-3">
+                            <label for="city">City</label>
+                            <input type="text" class="form-control" name="city" id="city">
+                        </div>
+
+
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label for="qual">Qualification</label>
+                            <input type="text" name="qual" class="form-control" id="qual" placeholder="">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="">Specialization</label>
+                            <input type="text" name="spl" id="spl" class="form-control">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-3">
+                            <label for="inputAddress">Years Of Experience</label>
+                            <input type="text" class="form-control" name="exp" id="exp">
+                        </div>
+                        <div class="form-group col-md-3 ">
+                            <label for="">Cerificate</label>
+                            <input type="file" class="btn btn-outline-info" name="cpic" id="imgidc">
+                        </div>
+                        <div class="form-group col-md-3 offset-2">
+                            <label for="">Specialization</label>
+                            <input type="file" class="btn btn-outline-info" name="spic" id="imgids">
+                        </div>
+                    </div>
+                    <div class="col-md-5 offset-4 mt-3">
+                        <input type="submit" class="btn btn-primary" id="sub" name="btn" value="Submit">
+                        &nbsp; &nbsp; &nbsp;
+                        <input type="submit" class="btn btn-primary" name="btn" value="Update">
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </div>
+
+</body>
+
+</html>

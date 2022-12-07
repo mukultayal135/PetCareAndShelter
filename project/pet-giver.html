@@ -1,0 +1,119 @@
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="css/doctor_css.css">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <script src="js/jquery-1.8.2.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <title></title>
+
+</head>
+<script>
+    function showpreview(file, imgid) {
+
+        if (file.files && file.files[0]) {
+            var reader = new FileReader();
+            reader.onload = function(e) {
+                $(imgid).prop('src', e.target.result);
+            }
+            reader.readAsDataURL(file.files[0]);
+        }
+    }
+
+</script>
+
+<body>
+    Post Pet Details
+
+    <div class="container col-md-9" style="border:1px solid black">
+
+        <form action="pet-giver-process.php" enctype="multipart/form-data" method="post">
+            <div class="row">
+                <div class="form-group col-md-4 mt-3">
+                    <label for="uid">UserId</label>
+                    <input type="text" class="form-control" id="uid" name="uid">
+                    <span id="erruid"></span>
+                </div>
+                <div class="form-group  col-md-4 mt-3">
+                    <label for="">Select Pet</label>
+                    <input list="pets" name="pet" id="pet" class="form-control">
+                    <datalist id="pets">
+                        <option value="Dogs">
+                        <option value="Cats">
+                        <option value="Fishes">
+                        <option value="Parrot">
+                        <option value="Cows">
+                        <option value="Buffaloes">
+                        <option value="Sheep">
+                    </datalist>
+                </div>
+                <div class="form-group  col-md-3 mt-3">
+                    <label for="breed">Breed(if any)</label>
+                    <input type="text" class="form-control" id="breed" name="breed">
+                </div>
+
+
+            </div>
+
+            <div class="row">
+                <div class="form-group  col-md-3 mt-3">
+                    <label for="age">Age</label>
+                    <input type="text" class="form-control" id="age" name="age">
+                </div>
+                <div class="form-group col-md-4 mt-3 offset-1">
+                    <label for="fname">Gender</label>
+                    <div class="form-check col-md-2">
+                        <input class="form-check-input" type="radio" name="gender" id="male" value="male" checked>
+                        <label class="form-check-label" for="male">
+                            Male
+                        </label>
+                    </div>
+                    <div class="form-check col-md-2">
+                        <input class="form-check-input" type="radio" name="gender" id="female" value="female">
+                        <label class="form-check-label" for="female">
+                            Female
+                        </label>
+                    </div>
+                </div>
+
+                <div class="form-group col-md-4 mt-3">
+                    <label for="price">Amount Demanded</label>
+                    <input type="text" class="form-control" id="price" name="price">
+                </div>
+
+            </div>
+
+            <div class="form-group col-md-7 offset-3 mt-4">
+                <label for="exampleFormControlTextarea1">Other Information</label>
+                <textarea class="form-control" id="other" name="other" rows="5"></textarea>
+            </div>
+            <div class="row mt-5">
+                <div class="form-group col-md-4 offset-5 ">
+                    <div class="row">
+                        <div class="form-group col-md-3 ">
+                            <img src="uploads/placeholder.jpg" height="170px" width="170px" alt="" id="img1" style="border:1px black solid;border-radius:10px 10px 10px 10px;">
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="form-group col-md-2 ml-4">
+                            <input type="button" class="btn btn-success" value="Add Picture" onclick="document.getElementById('pic1').click();return false;">
+                            <input type="file" name="pic1" id="pic1" style="display:none" onchange="showpreview(this,img1);">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-row ">
+                <div class="col-md-2 offset-5 ">
+                    <button type="submit" class="btn btn-primary btn-block" value="save" name="btn" id="btn">Submit</button>
+                </div>
+            </div>
+
+        </form>
+    </div>
+
+</body>
+
+</html>

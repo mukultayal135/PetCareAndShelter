@@ -1,0 +1,38 @@
+#logo {
+
+    margin-left: 30px;
+    border: 1px black solid;
+    border-radius: 50%;
+    transition: ease all 1s;
+}
+
+#logo:hover {
+    transform: scale(1.2);
+    transition: ease all 1s;
+}
+
+.img {
+
+    background-image: url("uploads/logo.PNG");
+    background-size: contain;
+    background-repeat: no-repeat;
+    border-radius: 50%;
+    border: 1px solid green;
+    margin-left: 70px;
+    margin-top: 10px;
+}
+.weight{
+    font-weight:500;
+    font-size:20px;
+    
+}
+.big{
+    
+    transition: .3s;
+    border-radius:10px 10px 10px 10px;
+    box-shadow: 2px 2px 15px;color:darkolivegreen;
+}
+.big:hover{
+    transform: scale(1.05);
+    transition: ease all 1s;
+}

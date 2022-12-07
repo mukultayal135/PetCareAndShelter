@@ -1,0 +1,173 @@
+<html>
+
+<head>
+    <title>Result Card</title>
+    <link rel="stylesheet" href="resultcss.css">
+    <script type="text/javascript">
+        function sum() {
+            var x = document.getElementById("txtJava").value;
+            var y = document.getElementById("txtAnd").value;
+            var z = document.getElementById("txtWeb").value;
+            var flag=1;
+            if(x.trim()==""||isNaN(x))
+            {
+                if(x.trim()=="")
+                document.querySelector("#errjava").innerHTML="* Plz fill this value";
+                else
+                document.querySelector("#errjava").innerHTML="* Invalid Input";
+                    
+                document.querySelector("#errjava").style.color="red";
+                document.querySelector("#txtjava").style.border="1px red solid";
+                document.getElementById("txtJava").value="";
+                flag=0;
+                
+            }
+            else
+                {
+                    document.querySelector("#errjava").innerHTML="";
+                    document.querySelector("#txtjava").style.border="inherit";
+                }
+            
+            if(y.trim()==""||isNaN(y))
+            {
+                flag=0;
+                if(y.trim()=="")
+                document.querySelector("#errandr").innerHTML="* Plz fill this value";
+                else
+                document.querySelector("#errandr").innerHTML="* Invalid Input";
+                    
+                document.querySelector("#errandr").style.color="red";
+                document.querySelector("#txtAnd").style.border="1px red solid";
+                document.getElementById("txtAnd").value="";
+                
+            }
+            else
+                {
+                    document.querySelector("#errandr").innerHTML="";
+                    document.querySelector("#txtAnd").style.border="inherit";
+                }
+            
+            if(z.trim()==""||isNaN(z))
+            {
+                flag=0;
+                if(z.trim()=="")
+                document.querySelector("#errweb").innerHTML="* Plz fill this value";
+                else
+                document.querySelector("#errweb").innerHTML="* Invalid Input";
+                    
+                document.querySelector("#errweb").style.color="red";
+                document.querySelector("#txtWeb").style.border="1px red solid";
+                document.getElementById("txtWeb").value="";
+                            
+            }
+            else
+                {
+                    document.querySelector("#errweb").innerHTML="";
+                    document.querySelector("#txtWeb").style.border="inherit";
+                }
+            if(flag)
+             {
+                 var sum = parseFloat(x) + parseFloat(y) + parseFloat(z);
+                 document.getElementById("txtTotal").value = sum;
+                document.querySelector("#per").disabled=false;
+                 
+             }
+
+            
+        }
+        function Per() {
+            var x = document.getElementById("txtJava").value;
+            var y = document.getElementById("txtAnd").value;
+            var z = document.getElementById("txtWeb").value;
+            var sum = parseFloat(x) + parseFloat(y) + parseFloat(z);
+            document.getElementById("txtPer").value = sum/3;
+            document.querySelector("#res").disabled=false;
+        }
+        function Res() {
+            var x = document.getElementById("txtJava").value;
+            var y = document.getElementById("txtAnd").value;
+            var z = document.getElementById("txtWeb").value;
+            var sum = parseFloat(x) + parseFloat(y) + parseFloat(z);
+            if(sum/3<30)
+                document.getElementById("txtRes").value="Fail";
+            else
+                document.getElementById("txtRes").value="Pass";
+                
+        }
+        function chkA()
+        {
+            var x = document.getElementById("txtJava").value;
+            if(!x.trim()==""&& !isNaN(x))
+                {
+                    document.querySelector("#errjava").innerHTML="";
+                    document.querySelector("#txtjava").style.border="inherit";
+                }
+                
+            
+        }
+        function chkB()
+        {
+            var y = document.getElementById("txtAnd").value;
+            if(!y.trim()==""&& !isNaN(y))
+                {
+                    document.querySelector("#errandr").innerHTML="";
+                    document.querySelector("#txtAnd").style.border="inherit";
+                }
+                
+            
+        }
+        function chkC()
+        {
+            var z = document.getElementById("txtWeb").value;
+            if(!z.trim()==""&& !isNaN(z))
+                {
+                    document.querySelector("#errweb").innerHTML="";
+                    document.querySelector("#txtWeb").style.border="inherit";
+                }
+                
+            
+        }
+        
+    </script>
+
+</head>
+
+<body >
+<form action="">
+    <div id="outer">
+        <div id="heading">Result Card
+            <hr color="black">
+        </div>
+        <div class="inner-text">Java</div>
+        <div class="inner-input"><input type="text" autofocus id="txtJava" onblur="chkA();"></div><div class="Error" id="errjava"></div>
+        <div class="inner-text">Android</div>
+        <div class="inner-input"><input type="text"  id="txtAnd" onblur="chkB();"></div><div class="Error" id="errandr"></div>
+        <div class="inner-text">Web-Development</div>
+        <div class="inner-input"><input type="text"  id="txtWeb" onblur="chkC();"></div><div class="Error" id="errweb"></div>
+        
+        <div><input type="button" class="buttons" value="Total"onclick="sum();" ></div>
+        
+        <div ><input type="button" class="buttons" value="Percentage"onclick="Per();" disabled id="per"></div>
+        
+        <div><input type="button" value="Pass/Fail"  class="buttons" onclick="Res();" disabled id="res"></div>
+        
+        <div><input type="reset" value="Clear"  class="buttons"></div>
+        
+        
+        <div class="inner-text" style="width:250px;margin-top:50px;">Total Marks</div>
+        <div class="inner-input"style="width:250px;margin-top:50px;"><input type="text" id="txtTotal" readonly></div>
+        
+        <div class="inner-text"style="width:250px;margin-top:50px;" >Percentage</div>
+        <div class="inner-input"style="width:250px;margin-top:50px;"><input type="text" id="txtPer" readonly></div>
+        
+        <div class="inner-text"style="width:250px;margin-top:50px;">Result</div>
+        <div class="inner-input"style="width:250px;margin-top:50px;"><input type="text" id="txtRes" readonly></div>
+
+
+    </div>
+    </form>
+
+
+</body>
+
+</html>

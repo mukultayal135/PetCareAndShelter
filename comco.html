@@ -1,0 +1,199 @@
+<html >
+<head>
+    <title>Document</title>
+    <script>
+         
+                    var op1=document.createElement("option");
+                    var op2=document.createElement("option");
+                    var op3=document.createElement("option");
+                    var op4=document.createElement("option");
+                    var op5=document.createElement("option");
+                    var op6=document.createElement("option");
+                    var op7=document.createElement("option");
+                    var op8=document.createElement("option");
+        function doItm(sel)
+        {
+            
+            var typ=document.getElementById("Type");
+            var pr=document.getElementById("Price");
+            typ.innerHTML="";
+            pr.innerHTML="";
+           
+            if(sel.value=="Mobile")
+                {
+                    op1.text="Mi";
+                    op2.text="Realme";
+                    op3.text="Samsung";
+                    op4.text="Apple";
+                    op1.value="7000";
+                    op2.value="8000";
+                    op3.value="50000";
+                    op4.value="70000";
+                    op5.text="7000";
+                    op6.text="8000";
+                    op7.text="50000";
+                    op8.text="70000";
+                    
+                    typ.append(op1);
+                    typ.append(op2);
+                    typ.append(op3);
+                    typ.append(op4);
+                    pr.append(op5);
+                    pr.append(op6);
+                    pr.append(op7);
+                    pr.append(op8);
+                    
+                    return;
+			        
+                }
+            if(sel.value=="Laptop")
+                {
+                    
+                    op1.text="Dell";
+                    op2.text="Asus";
+                    op3.text="Hp";
+                    op4.text="Lenovo";
+                    op1.value="65000";
+                    op2.value="80000";
+                    op3.value="50000";
+                    op4.value="60000";
+                    op5.text="65000";
+                    op6.text="80000";
+                    op7.text="50000";
+                    op8.text="60000";
+                    
+                    typ.append(op1);
+                    typ.append(op2);
+                    typ.append(op3);
+                    typ.append(op4);
+                    typ.append(op4);
+                    pr.append(op5);
+                    pr.append(op6);
+                    pr.append(op7);
+                    pr.append(op8);
+                    
+                    return;
+			        
+                }
+            if(sel.value=="Pen")
+                {
+                     
+                    op1.text="Renoylds";
+                    op2.text="Rorito";
+                    op3.text="Parker";
+                    op4.text="Addgel"; 
+                    op1.value="70";
+                    op2.value="20";
+                    op3.value="500";
+                    op4.value="100";
+                    op5.text="70";
+                    op6.text="20";
+                    op7.text="500";
+                    op8.text="100";
+                    typ.append(op1);
+                    typ.append(op2);
+                    typ.append(op3);
+                    typ.append(op4);
+                    pr.append(op5);
+                    pr.append(op6);
+                    pr.append(op7);
+                    pr.append(op8);
+                    return;
+			        
+                }
+                
+        }
+        function Cart()
+        {
+            var typ=document.getElementById("Type");
+            var cr=document.getElementById("cart");
+            var pr=document.getElementById("value");
+            for(i=0;i<typ.length;i++)
+                {
+                    if(typ[i].selected==true)
+                        {
+                            var op=document.createElement("option");
+                            var opp=document.createElement("option");
+                             op.text=typ[i].text;
+                             opp.text=typ[i].value;
+                            cr.append(op);
+                            pr.append(opp);
+                        }
+                }
+            
+        }
+        var sum=0;
+        function Result()
+        {
+            
+            var pr=document.getElementById("value");
+            for(i=0;i<pr.length;i++)
+                {
+                    sum+=parseFloat(pr[i].value);
+                }
+            document.getElementById("ans").value=sum;
+            
+            
+        }
+        function Delete()
+        {
+            var cr=document.getElementById("cart");
+            var pr=document.getElementById("value");
+            var indx=cr.selectedIndex;
+            cr.remove(indx);
+            var a=pr[indx].text;
+            pr.remove(indx);
+            sum=parseFloat(sum)-parseFloat(a);
+            document.getElementById("ans").value=sum;
+            
+            
+        }
+    </script>
+</head>
+<body>
+  <div style="width:700px;height:500px;margin:auto;border-radius: 10px 10px 10px 10px;border:1px black solid;margin-top:100px;">
+      <div style="width:inherit; height:50px;text-align:center;margin-top:10px;">List Combo</div>
+      <div style="width:inherit; height:100px;text-align:center">Category Of Items:
+      <select id="Items" onchange="doItm(this);" >
+          <option value="none">Select</option>
+          <option value="Mobile">Mobile</option>
+          <option value="Laptop">Laptop</option>
+          <option value="Pen">Pen</option>
+      </select>
+      
+      </div>
+      <div style="width:200px; height:100px;text-align:center;float:left;margin-left:100px;">
+          Types:
+          <select id="Type" size="4" multiple onchange="Cart();">
+              
+          </select>
+          
+      </div>
+      <div style="width:200px; height:100px;text-align:center;float:left;margin-left:100px;">
+          Price in Rs::
+          <select id="Price" size="4" >
+            
+          </select>
+      </div>
+      <div style="width:200px; height:100px;text-align:center;float:left;margin-left:100px;">
+          Cart:
+          <select id="cart" size="4"  ondblclick="Delete();" >
+              
+          </select>
+      </div>
+       
+      <div style="width:300px; height:100px;text-align:center;float:left;margin-left:50px;">
+         Value of Selected Items:
+          <select id="value" size="4">
+             
+          </select>
+      </div>
+      <div style="width:inherit;text-align: center;height:50px;float:left;margin-top:40px"><input type="button" value="Bill"onclick="Result();"></div>
+      <div style="width:inherit;text-align: center;height:50px;float:left;margin-top:20px"><input type="text" id="ans"></div>
+      
+      
+  </div>
+   
+    
+</body>
+</html>

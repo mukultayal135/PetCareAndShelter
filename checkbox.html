@@ -1,0 +1,53 @@
+<html lang="en">
+
+<head>
+    <title>Document</title>
+    <script>
+        function check(sel)
+        {
+            var cp=document.getElementById("cpp");
+            var ja=document.getElementById("java");
+            var web=document.getElementById("web");
+            if(sel.checked==true)
+                {
+                    cp.checked=true;
+                    ja.checked=true;
+                    web.checked=true;
+                }
+            else
+                {
+                    cp.checked=false;
+                    ja.checked=false;
+                    web.checked=false;
+                    
+                }
+
+            
+        }
+    </script>
+</head>
+
+<body>
+    <center>
+        <table>
+            <tr>
+                <th>Subjects</th>
+            </tr>
+            <tr>
+                <td><input type="checkbox" onclick="check(this);">Select All</td>
+            </tr>
+            <tr>
+                <td><input type="checkbox" id="cpp">CPP</td>
+            </tr>
+            <tr>
+                <td><input type="checkbox" id="java">Java</td>
+            </tr>
+            <tr>
+                    <td><input type="checkbox" id="web">Web</td>
+            </tr>
+        </table>
+    </center>
+
+</body>
+
+</html>

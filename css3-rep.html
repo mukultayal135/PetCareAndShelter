@@ -1,0 +1,43 @@
+<html>
+	<head>
+		<title>Css lect</title>
+		<style type="text/css">
+			/*class Selector*/
+			.purva{
+				background-color: purple; color: white;
+				width: 100px;
+				text-align: center;
+				padding-top: 10px;
+				padding-bottom: 10px;
+				font-weight: bolder;
+				cursor: pointer;
+				transition: ease all .5s;
+				float: left;
+				margin-left: 5px;
+				font-style: italic;
+				font-family: "Curlz MT";
+			}
+			.purva:hover{
+				background-color: yellow;
+				color: purple;
+				text-decoration: underline;
+				width: 120px;
+			}
+			.purva:active{
+				transform: translate(10px,10px);
+				transition: ease all .5s;
+			}
+			.spl-clr{
+				background-color: orange;
+			}
+		</style>
+	</head>
+	<body>
+	<center>
+		<div class="purva">Signup</div>
+		<div class="purva spl-clr">Login</div>
+		<div class="purva">Contact Us</div>
+		
+	</center>	
+	</body>
+</html>

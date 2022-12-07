@@ -1,0 +1,16 @@
+.main{
+    width:900px;
+    height:900px;
+    margin:auto;
+    margin-top:200px;
+    border:1px solid black;
+    padding:30px;
+    
+}
+.login{
+    float:left;
+    margin-left:20px;
+}
+#state{
+    margin-left:60px;
+}

@@ -1,0 +1,57 @@
+<html>
+
+<head>
+    <title>Document</title>
+    <script src="js/jquery-1.8.2.min.js">
+    </script>
+    <script>
+		function showpreview(file,imgid) {
+
+			if (file.files && file.files[0]) {
+				var reader = new FileReader();
+				reader.onload = function(e) {
+					$(imgid).prop('src', e.target.result);
+				}
+				reader.readAsDataURL(file.files[0]);
+			}
+		}
+
+	</script>
+</head>
+
+<body>
+    <center>
+        <form action="practicee.php" method="post" enctype="multipart/form-data">
+            <table >
+                <tr>
+                    <td align="center" colspan="2">Profile Pic</td>
+
+                </tr>
+                <tr>
+                    <td>UserName:<input type="text" name="uid"></td>
+                </tr>
+                <tr>
+                    <td>
+                        <input type="file" name="pic" onchange="showpreview(this,image)">
+                        <img id="image" height="50" width="50" alt="">
+                    </td>
+                </tr>
+                <tr>
+                    <td align="center"><input type="submit" value="Send Details"></td>
+                </tr>
+
+
+
+
+            </table>
+
+
+
+        </form>
+
+
+    </center>
+
+</body>
+
+</html>

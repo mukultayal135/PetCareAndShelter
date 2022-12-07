@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="css/doctor_css.css">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <script src="js/jquery-1.8.2.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <style>
+        .table-hover>tbody>tr:hover {
+            background-color: darkolivegreen;
+            color: white;
+        }
+
+    </style>
+</head>
+<link rel="stylesheet" href="index-css.css">
+<script>
+    $(document).ready(function() {
+
+        $("#uid").blur(function() {
+
+            var uid = $("#uid").val();
+            var url = "chksignupuser.php?uid=" + uid;
+            $.get(url, function(response) {
+                if (response == 1) {
+                    $("#uid").css("border", "1px solid green");
+                    $("#erruid").html("");
+                } else {
+                    $("#erruid").html("Username already exists").css("color", "red");
+                    $("#uid").css("border", "1px solid red");
+
+                }
+
+            });
+        });
+
+        $('body').on('show.bs.modal', '.modal', function() {
+            $('.modal:visible').removeClass('fade').modal('hide').addClass('fade');
+        });
+
+        $("#pwd").blur(function() {
+
+            var pw = $("#pwd").val();
+            var r = /(?=^.{8,}$)(?=.*\d)(?=.*[!@#$%^&*]+)(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$/;
+            if (pw.trim() == 0) {
+                $("#errpwd").html("Password is required").css("color", "red");
+                $("#pwd").css("border", "1px solid red");
+            } else if (r.test(pw) == false) {
+                $("#errpwd").html("Password format not satisfied").css("color", "red");
+                $("#pwd").css("border", "1px solid red");
+                $("#errpwd").val("");
+
+            } else {
+                $("#errpwd").html("Password Accepted").css("color", "green");
+                $("#pwd").css("border", "1px solid green");
+            }
+
+        });
+        $("#mob").blur(function() {
+            var mob = $("#mob").val();
+            var exp = /^[6-9]{1}[0-9]{9}$/;
+            if (mob.trim() == 0) {
+                $("#errmob").html("Enter Mobile No.").css("color", "red");
+                $("#mob").css("border", "1px solid red");
+
+            } else if (exp.test(mob) == false) {
+                $("#errmob").html("Invalid Mobile No.").css("color", "red");
+
+                $("#mob").css("border", "1px solid red");
+            } else {
+                $("#mob").css("border", "1px solid green");
+                $("#errmob").html("");
+            }
+
+        });
+        $("#signup").click(function() {
+            var string = $("#formsignup").serialize();
+            var url = "signup-send.php?" + string;
+            $.get(url, function(response) {
+                $("#errsi").html(response);
+
+            });
+        });
+
+        $("#login").click(function() {
+            var string = $("#formlogin").serialize();
+            var url = "login-send.php?" + string;
+            $.get(url, function(response) {
+                if (response == "1") {
+                    $("#erruid2").html("Username not Found,SignUp Please!!").css("color", "red");
+                    $("#uid2").css("border", "1px solid red");
+                } else if (response == "2") {
+                    $("#errpwd2").html("Username And Password Doesn't Match!!").css("color", "red");
+                    $("#pwd2").css("border", "1px solid red");
+                } else if (response == "Doctor") {
+                    location.href = "doctor-login.php";
+                } else if (response == "Pharmacist") {
+                    location.href = "pharmacy-login.php";
+                } else if (response == "User") {
+                    location.href = "citizen-dashboard.php";
+                } else if (response == "Shelter") {
+                    location.href = "find-shelter.php";
+                }
+
+            });
+        });
+        $("#otp").click(function() {
+            var user = $("#temp").val();
+            $.getJSON("json-otp.php?uid=" + user, function(response) {
+                alert(response);
+            });
+            $("#otpsent").html("OTP sent").css("color", "green");
+            $("#enter").removeAttr('disabled');
+            $("#confirm").removeAttr('disabled');
+
+        });
+        $("#confirm").click(function() {
+            $("#newpwd").removeAttr('disabled');
+        });
+        $("#savenew").click(function() {
+            var uid = $("#temp").val();
+            var pwd = $("#newpwd").val();
+            var url = "changepwd.php?id=" + uid + "&pwd=" + pwd;
+            $.get(url, function(response) {
+                if (response == 1)
+                    $("#newpwddone").html("Password has been reset").css("color", "green");
+                else
+                    $("#newpwddone").html("Please Try again!!").css("color", "green");
+
+            });
+        });
+    });
+
+</script>
+
+<body>
+
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <img src="uploads/logo.PNG" height="80px" width="80px" id="logo" alt="">
+        &nbsp;&nbsp;&nbsp;
+        <a class="navbar-brand" style="font-size:40px;color:darkolivegreen;"><b>We And Paws</b></a>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="nav navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" data-toggle="modal" data-target="#signupmodal" style="cursor:pointer;"><span class="fas fa-user"></span> Sign Up</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-toggle="modal" data-target="#loginmodal" style="cursor:pointer;"><span class="fas fa-sign-in-alt"></span> Login</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <div class="container">
+        <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
+            <div class="carousel-inner">
+                <div class="carousel-item active">
+                    <img class="d-block w-100" style="margin:auto" height="550px" src="uploads/dog1.jpg" alt="First slide">
+                </div>
+                <div class="carousel-item">
+                    <img class="d-block w-100" style="margin:auto" height="550px" src="uploads/cat1.jpg" alt="Second slide">
+                </div>
+                <div class="carousel-item">
+                    <img class="d-block w-100" style="margin:auto" height="550px" src="uploads/cat2.jpg" alt="Third slide">
+                </div>
+            </div>
+            <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="sr-only">Previous</span>
+            </a>
+            <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="sr-only">Next</span>
+            </a>
+        </div>
+    </div>
+    <div class="form-row" style="background-color:darkolivegreen;border-top:4px black solid;border-bottom: 4px black solid">
+        <div class="col-md-12 text-center" style="color:white;font-size:40px;text-shadow: 2px 2px    black;"><b>Our Services</b></div>
+    </div>
+
+    <div class="container mt-5">
+        <div class="form-row">
+            <div class="form-group col-md-4">
+                <a data-toggle="modal" data-target="#loginplz">
+                    <div class="card " style="width: 18rem;box-shadow: 5px 5px 30px;color:darkolivegreen;">
+                        <img src="uploads/pet-pharmacy.jpg" class="card-img-top " style="padding:5px;border-radius:10px 10px 10px 10px" width="275px" height="193px" ; alt="...">
+                        <div class="card-body">
+                            <p class="card-text shadow" style="text-align:center;color:black;font-size:30px;font-weight:bold;">Pharmacy</p>
+                            <p style="text-align:center;color:black">Get medicines for you beloved pets from our Authorised Pharmacists</p>
+                            <br>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div class="form-group col-md-4">
+                <a data-toggle="modal" data-target="#loginplz">
+                    <div class="card " style="width: 18rem;box-shadow: 5px 5px 30px;color:darkolivegreen;">
+                        <img src="uploads/pet-doctor.jpg" class="card-img-top " style="padding:5px;border-radius:10px 10px 10px 10px" alt="...">
+                        <div class="card-body">
+                            <p class="card-text shadow" style="text-align:center;color:black;font-size:30px;font-weight:bold;">Doctor</p>
+                            <p style="text-align:center;color:black">Get Medical Assistance for your pets from Doctor of your choice</p>
+                            <br>
+                            <br>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div class="form-group col-md-4">
+                <a data-toggle="modal" data-target="#loginplz">
+                    <div class="card " style="width: 18rem;box-shadow: 5px 5px 30px;color:darkolivegreen;">
+                        <img src="uploads/pet-shelter.jpg" class="card-img-top " style="padding:5px;border-radius:10px 10px 10px 10px" height="190px;" alt="...">
+                        <div class="card-body">
+                            <p class="card-text shadow" style="text-align:center;color:black;font-size:30px;font-weight:bold;">Pet-Shelter</p>
+                            <p style="text-align:center;color:black">Planning for a vacation but worried for your pets.Get into touch with your near buy shelter providers</p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
+    <div class="form-row" style="background-color:darkolivegreen;border-top:4px black solid;border-bottom: 4px black solid">
+        <div class="col-md-12 text-center" style="color:white;font-size:40px;text-shadow: 2px 2px    black;"><b>Developers</b></div>
+    </div>
+    <div class="container mt-2">
+        <div class="row mt-3">
+            <div class="col-md-4 text-center">
+                <img src="uploads/1.jpg" width="200px" height="200px" style="margin-top:10px;border-radius:10px 10px 10px 10px;box-shadow: 5px 5px 10px;border:2px darkolivegreen solid" alt="">
+                <h3 style="color:black;font-size:25px;font-weight:bold;text-shadow: 3px 3px white;">Mukul Tayal <br>
+                    (Developer)</h3>
+            </div>
+            <div class="col-md-8">
+                <table class="table table-hover" style="margin-top:10px;">
+                    <tbody>
+                        <tr>
+                            <td><b>College:</b></td>
+                            <td>Thapar Institue Of Engineering and Technology</td>
+                        </tr>
+
+                        <tr>
+                            <td> <b>School:</b></td>
+                            <td>St.Xavier Senior Secondary School</td>
+                        </tr>
+                        <tr>
+                            <td><b>Technologies used to make this website:</b></td>
+                            <td> Javascipt, J-Query, PHP, Bootstrap, My-Sql</td>
+                        </tr>
+
+                        <tr>
+                            <td><b>E-Mail:</b></td>
+                            <td>mtayal_be19@thapar.edu</td>
+                        </tr>
+                    </tbody>
+
+                </table>
+            </div>
+        </div>
+        <hr>
+        <div class="row mt-3">
+            <div class="col-md-4 text-center">
+                <img src="uploads/rajesh.jpg" width="200px" height="200px" style="margin-top:10px;border-radius:10px 10px 10px 10px;box-shadow: 5px 5px 10px;border:2px darkolivegreen solid" alt="">
+                <h3 style="color:black;font-size:25px;font-weight:bold;text-shadow: 3px 3px white;">Rajesh K. Bansal<br>(Under the Guidance)</h3>
+            </div>
+            <div class="col-md-8 ">
+                <table class="table table-responsive table-hover" style="color:#000;">
+                    <tr>
+                        <td><b>Training Experience:</b></td>
+                        <td>17 Years </td>
+                    </tr>
+                    <tr>
+                        <td><b>Sun Certified:</b></td>
+                        <td>Sun Cerified Java Programmer</td>
+                    </tr>
+                    <tr>
+                        <td><b>Microsoft Certified:</b></td>
+                        <td>Microsoft Certified Specialist</td>
+                    </tr>
+                    <tr>
+                        <td><b>Training &amp; Development Head at:&nbsp; &nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</b></td>
+                        <td>Sun-Soft Technologies</td>
+                    </tr>
+                    <tr>
+                        <td><b>Author of:</b></td>
+                        <td>Real Java</td>
+                    </tr>
+
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="form-row" style="background-color:darkolivegreen;border-top:4px black solid;border-bottom: 4px black solid">
+        <div class="col-md-12 text-center" style="color:white;font-size:40px;text-shadow: 2px 2px    black;"><b>About Us</b></div>
+    </div>
+    <div class="container mt-4" style="background-color:#F0FFF0">
+        <div class="form-row">
+            <div class="col-md-3 mt-3">
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3447.88351250642!2d74.95000951420167!3d30.21187198182172!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x391732a4f014b8f7%3A0x7fa736d540603db!2sSun-Soft%20Technologies%20(%20Android%20Java%20PHP%20Angular%20)!5e0!3m2!1sen!2sin!4v1602399038310!5m2!1sen!2sin" width="600" height="250" frameborder="0" style="border:0;" allowfullscreen="" aria-hidden="false" tabindex="0"></iframe>
+            </div>
+            <div class="col-md-5 offset-4  mt-4 text center">
+                <div class="card" style="width: 25rem;border-radius:20px 20px 20px 20px;">
+                    <div class="card-body">
+                        <table class="table card-text mt-2">
+                            <tr>
+                                <td><b>Email:</b></td>
+                                <td>mtayal_be19@thapar.edu</td>
+                            </tr>
+                            <tr>
+                                <td><b>Contact:</b></td>
+                                <td>9646741008</td>
+                            </tr>
+                        </table>
+                        <p class="card-text text-center"><a href="http://www.linkedin.com/in/mukul-tayal-254b141a1" class="card-link"><i class="fab fa-linkedin" style="font-size:30px; cursor:pointer;"></i></a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row bg-dark">
+        <div class="col-md-12 text-center " style="color:white">
+            <p>Copyright 2020 We And Paws Company All rights reserved</p>
+            <p>Including all Terms and Conditions</p>
+        </div>
+    </div>
+
+
+    <div class="modal" tabindex="-1" id="signupmodal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <p class="modal-title text-center">Sign Up</p>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+                <form action="" id="formsignup">
+                    <div class="container">
+                        <div class="form-group md-12 ">
+
+                            <div class="form-group col-md-12">
+                                <div class="img" style="height:200px;width:300px;"></div>
+                            </div>
+
+                            <hr>
+                            <div class="form-row">
+                                <div class="form-group col-md-9 offset-2">
+                                    <label for="uid">Username</label>
+                                    <input type="text" class="form-control" id="uid" name="uid">
+                                    <span id="erruid"></span>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group col-md-9 offset-2">
+                                    <label for="pwd">Password</label>
+                                    <input type="password" class="form-control" id="pwd" name="pwd">
+                                    <span id="errpwd"></span>
+
+                                </div>
+
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group col-md-9 offset-2">
+                                    <label for="mob">Mobile</label>
+                                    <input type="text" class="form-control" id="mob" name="mob">
+                                    <span id="errmob"></span>
+
+                                </div>
+
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group col-md-9 offset-2">
+                                    <label for="">Sign In As</label>
+                                    <select name="person" id="person" class="custom-select">
+                                        <option value="">Select</option>
+                                        <option value="Doctor">Doctor</option>
+                                        <option value="Pharmacist">Pharmacist</option>
+                                        <option value="Shelter">Shelter Provider</option>
+                                        <option value="User">User</option>
+
+                                    </select>
+                                </div>
+
+                            </div>
+                            <span id="errsi" style="font-family:monospace ;font-weight:bold;font-size:15px"></span>
+
+                            <hr>
+                            <div class="md-4 offset-5">
+                                <button type="button" class="btn btn-outline-primary" id="signup">Sign Up</button>
+                                <br>
+                                <br>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="modal" tabindex="-1" id="loginmodal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title text-center">Login</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form action="" id="formlogin">
+                    <div class="container">
+                        <div class="form-group md-12 ">
+
+                            <div class="form-group col-md-12">
+                                <div class="img" style="height:200px;width:300px;"></div>
+                            </div>
+
+                            <hr>
+                            <div class="form-row">
+                                <div class="form-group col-md-9 offset-2">
+                                    <label for="uid2">Username</label>
+                                    <input type="text" class="form-control" id="uid2" name="uid2">
+                                    <span id="erruid2"></span>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group col-md-9 offset-2">
+                                    <label for="pwd2">Password</label>
+                                    <input type="password" class="form-control" id="pwd2" name="pwd2">
+                                    <span id="errpwd2"></span>
+
+                                    <a style="text-decoration: none;" href="" data-toggle="modal" data-target="#forgot"> Forgot Password?</a>
+                                </div>
+                            </div>
+
+
+                            <hr>
+                            <span id="errlo" style="font-family:monospace ;font-weight:bold;font-size:15px"></span>
+                            <div class="md-4 offset-5">
+                                <button type="button" class="btn btn-outline-primary" id="login">Login</button>
+                                <br>
+                                <br>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" tabindex="-1" id="forgot">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Reset Password</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label for="temp">Username</label>
+                            <input type="text" class="form-control" id="temp" name="temp">
+                        </div>
+                        <div class="form-group col-md-3">
+                            <button id="otp" class="btn btn-primary" style="margin-top:30px;">Send OTP</button>
+                        </div>
+                        <div class="form-group col-md-2  mt-5" id="otpsent"></div>
+
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label for="">Enter OTP</label>
+                            <input id="enter" disabled type="text" class="form-control">
+                        </div>
+                        <div class="form-group col-md-4 ">
+                            <button class="btn btn-primary" disabled id="confirm" style="margin-top:30px;">Confirm OTP</button>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="newpwd">New Password</label>
+                            <input type="text" class="form-control" id="newpwd" name="newpwd" disabled>
+                        </div>
+                        <div class="form-group col-md-5 mt-5" id="newpwddone"></div>
+
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" id="savenew" class="btn btn-primary">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal" id="loginplz" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p class="weight">Please Login or Signup to Access Contents Of the Site</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-secondary" data-dismiss="modal" data-toggle="modal" data-target="#loginmodal">Login</button>
+                    <button type="button" class="btn btn-outline-secondary" data-toggle="modal" data-target="#signupmodal">Signup</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+</body>
+
+</html>
